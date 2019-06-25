@@ -1,10 +1,10 @@
-@import url(https://fonts.googleapis.com/css?family=Raleway:400,500);
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
 
 html,
 body {
-  background-color: #a9d7d1;
+  background-color: #ffffff;
   text-align: center;
-  font-family: 'Raleway', Helvetica, sans-serif;
+  font-family: 'Source Sans Pro', Helvetica, sans-serif;
   min-width: 320px;
 }
 
@@ -15,42 +15,54 @@ header {
 }
 
 #form-outer {
-  background-color: rgb(250, 250, 250);
+  background-color: rgb(255, 255, 190);
   margin: 0 auto;
+  border: 1px solid black;
   border-radius: 4px;
   width: 75%;
-  max-width: 900px;
+  max-width: 600px;
   padding: 10px;
   padding-top: 20px;
 }
 
-.labels {
-  display: inline-block;
-  text-align: right;
-  width: 40%;
-  padding: 5px;
-  vertical-align: top;
-  margin-top: 10px;
+.form-heading {
+  display: block;
+  margin: auto;
+  padding: 2px;
 }
 
-.rightTab {
-  display: inline-block;
+.mandatory {
+  color: red;
+}
+
+.labels {
+  display: block;
   text-align: left;
-  width: 48%;
-  vertical-align: middle;
+  width: 50%;
+  padding: 2px;
+  padding-top: 20px;
+  margin: auto;
+}
+
+.input-controls {
+  display: block;
+  text-align: left;
+  width: 50%;
+  padding: 2px;
+  margin: auto;
 }
 
 .input-field {
   height: 20px;
   width: 280px;
-  padding: 5px;
-  margin: 10px;
+  padding: 2px;
+  margin: 0px;
   border: 1px solid #c0c0c0;
   border-radius: 2px;
 }
 
-#userAge {
-  width: 40px;
+.userage {
+  width: 50px;
 }
 
 .userRatings,
@@ -73,9 +85,7 @@ input[type="checkbox"] {
 .dropdown {
   height: 35px;
   width: 140px;
-  padding: 5px;
-  margin: 10px;  
-  margin-top: 15px;
+  padding: 2px;
   border: 1px solid #c0c0c0;
   border-radius: 2px;
 }
@@ -83,15 +93,15 @@ input[type="checkbox"] {
 .radio, .checkbox {
   position: relative;
   left: -43px;
-  margin-left: 10px;
   display: block;
-  padding-bottom: 10px;
+  padding-bottom: 2px;
 }
 
 @media screen and (max-width: 833px) {
   .input-field {
-    width: 80%;
+    width: 100%;
   }
+
   select {
     width: 90%;
   }
@@ -100,11 +110,10 @@ input[type="checkbox"] {
 @media screen and (max-width: 520px) {
   .labels {
     width: 100%;
-    text-align: left;
   }
-  .rightTab {
+  .input-controls {
     width: 80%;
-    float: left;
+    margin-left: 0px;
   }
   .input-field {
     width: 100%;
