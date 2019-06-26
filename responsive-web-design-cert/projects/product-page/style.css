@@ -22,8 +22,12 @@ header {
   margin-left: 7px;    
 }
 
+#header-img {
+  margin-top:5px;
+}
+
 #product-title {
-  padding-left: 7px;
+  margin-left: 7px;
 }
 
 /* Nav bar styles */
