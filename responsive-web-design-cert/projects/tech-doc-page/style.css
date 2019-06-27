@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
+
+html,
+body {
+  background-color: #ffffff;
+  font-family: 'Source Sans Pro', Helvetica, sans-serif;
+  min-width: 320px;
+  margin: 0;
+}
+
+header {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 20px;
+}
+
+.navbar {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #f1f1f1;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+.navbar a {
+  display: block;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+}
+
+.navbar a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.navbar a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+
+.main-doc {
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 100%;
+}
+
+p {
+  text-align: justify;
+}
+
+code {
+  background-color: #e7e7e7f1;
+  padding: 3px;
+  margin: 10px;
+}
+
+@media screen and (max-width: 520px) {
+  .navbar {
+    width: 100%;
+    position: relative;
+  }  
+  .navbar a {
+    text-align: center;
+    float: none;
+  }
+  .main-doc {margin-left: 0;}
+}
