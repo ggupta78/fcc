@@ -6,24 +6,24 @@
         <script type="text/javascript" src="script.js"></script>        
     </head>
     <body>
-        <a name="top"></a>
         <header id="header">
             <nav id="nav-bar">
                 <div id="logo">
                     <img id="header-img" src="http://dioceseofcharlottetown.com/wp-content/uploads/2016/11/40-1024x1024.jpg" width="35px" height="35px">
-                    <span id="product-title">40 year old Programmer</span>     
+                    <div id="product-title">40 year old Programmer</div>     
                 </div>
                 <ul>
-                    <li id="nav-link"><a href="#contact-link">Contact</a></li>
-                    <li id="nav-link"><a href="#pricing-link">Pricing</a></li>                    
-                    <li id="nav-link"><a href="#video-link">Video</a></li>
-                    <li id="nav-link"><a href="#about-link">About</a></li>
+                    <li id="nav-link"><a href="#contact-link" class="nav-link">Contact</a></li>
+                    <li id="nav-link"><a href="#pricing-link" class="nav-link">Pricing</a></li>                    
+                    <li id="nav-link"><a href="#video-link" class="nav-link">Video</a></li>
+                    <li id="nav-link"><a href="#about-link" class="nav-link">About</a></li>
                 </ul>
             </nav>
+            <a name="top" id="top"></a>
         </header>
         <article>
             <section id="about-me">
-                <a name="about-link"></a>
+                <a name="about-link" id="about-link"></a>
                 <div id="content-container">
                     <span class="content-title">About me</span>
                     <br>
@@ -31,18 +31,18 @@
                 </div>
             </section>
             <section id="my-video">
-                <a name="video-link"></a>
+                <a name="video-link" id="video-link"></a>
                 <div class="content-container">
                     <span class="content-title">Here's a funny video - </span>
                     <br><br>
-                    <video width="160" height="120" controls>
+                    <video id="video" width="160" height="120" controls>
                         <source src="https://youtu.be/_Nua3Cjdik0" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>
             </section>
             <section id="pricing">
-                <a name="pricing-link"></a>
+                <a name="pricing-link" id="pricing-link"></a>
                 <div class="content-container">
                     <span class="content-title">What I charge -</span>
                     <br><br>
@@ -54,11 +54,11 @@
             </section>
             <section id="contact">
                 <div class="">
-                    <a name="contact-link"></a>
+                    <a name="contact-link" id="contact-link"></a>
                     <span class="content-title">Allow me to contact you for work!</span>
-                    <form id="form" method="POST" action="https://www.freecodecamp.com/email-submit"></form>
-                        <input type="email" name="email" id="email" class="input-field" required placeholder="Enter your Email">
-                        <button id="submit" type="submit">Here's my email. Knock yourself out!</button>
+                    <form id="form" method="POST" action="https://www.freecodecamp.com/email-submit">
+                        <input id="email" type="email" name="email" class="input-field" required placeholder="Enter your Email">
+                        <input id="submit" type="submit">Here's my email. Knock yourself out!</input>
                     </form>
                 </div>
             </section>
