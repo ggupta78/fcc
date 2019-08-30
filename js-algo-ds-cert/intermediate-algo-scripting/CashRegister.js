@@ -69,6 +69,16 @@ function getWholeCurrencyChange(returnAmt, cid) {
   return wholeCurrency;
 }
 
+function getChange(returnAmt, cid) {
+  let change = [];
+
+  if(cid["ONE HUNDRED"] >= returnAmt) {
+    change.push(["ONE HUNDRED", cid["ONE HUNDRED"]);
+  }
+
+  return change;
+}
+
 function checkCashRegister(price, cash, cid) {
   //Initialiase the change object
   var change = {};
@@ -93,9 +103,13 @@ function checkCashRegister(price, cash, cid) {
     change.change = [];
   } else if(cashInRegister > returnAmt) {
     //Check whole and fractional denomination separately
-    let fractional = getFractionalChange(returnAmt, cid);
-    let whole = getWholeCurrencyChange(returnAmt, cid);
-    
+    change.change = getChange(returnAmt, cid);
+
+    if(cashInRegister === returnAmt) {
+      change.status = "CLOSED";
+    } else {
+      change.status = "OPEN";
+    }
   }
 
   return change;
