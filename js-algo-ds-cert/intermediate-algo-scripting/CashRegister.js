@@ -1,82 +1,37 @@
-function getFractionalChange(returnAmt, cid) {
-  let fractional = [];
 
-  returnAmt = (returnAmt - Math.floor(returnAmt));
-  console.log("Fractional return amt:", returnAmt);
+function addAndDeduct(change, denomination, val, returnAmt, cidObject) {
+  if(returnAmt - cidObject[denomination] >= 0) {
+    change.change.push([denomination, cidObject[denomination]]);
+    returnAmt = returnAmt - cidObject[denomination];
+  } else {
+    let denominationQuantity = returnAmt / val;
+    if(denominationQuantity >= 1) {
+      if(denomination === "PENNY") {
+        change.change.push([denomination, (Math.round(denominationQuantity) * val)]);  
+      } else {
+        change.change.push([denomination, (Math.trunc(denominationQuantity) * val)]);
+      }
+      returnAmt = returnAmt - (Math.trunc(denominationQuantity) * val);
+    }
+  }
   
-  let quarterChange = (returnAmt/0.25);
-  if(quarterChange >= 1.0) {
-    fractional.push(["QUARTER", (Math.trunc(quarterChange) * 0.25)]);
-    returnAmt = (returnAmt - (Math.trunc(quarterChange) * 0.25));
-  }
-
-  let dimeChange = (returnAmt/0.10);
-  if(dimeChange >= 1.0) {
-    fractional.push(["DIME", (Math.trunc(dimeChange) * 0.10)]);
-    returnAmt = (returnAmt - (Math.trunc(dimeChange) * 0.10));
-  }
-
-  let nickelChange = (returnAmt/0.05);
-  if(nickelChange >= 1.0) {
-    fractional.push(["NICKEL", (Math.trunc(nickelChange) * 0.05)]);
-    returnAmt = (returnAmt - (Math.trunc(nickelChange) * 0.05));
-  }
-
-  let pennyChange = (returnAmt/0.01);
-  if(pennyChange >= 1.0) {
-    fractional.push(["PENNY", (Math.round(pennyChange) * 0.01)]);
-    //returnAmt = (returnAmt - (Math.round(pennyChange) * 0.01));
-  }
-
-  return fractional;
+  return returnAmt;
 }
 
-function getWholeCurrencyChange(returnAmt, cid) {
-  let wholeCurrency = [];
+function getChange(change, returnAmt, cidObject) {
+  //let denominationItem = [];
 
-  returnAmt = Math.trunc(returnAmt);
+  returnAmt = addAndDeduct(change, "ONE HUNDRED", 100, returnAmt, cidObject);
+  returnAmt = addAndDeduct(change, "TWENTY", 20, returnAmt, cidObject);
+  returnAmt = addAndDeduct(change, "TEN", 10, returnAmt, cidObject);
+  returnAmt = addAndDeduct(change, "FIVE", 5, returnAmt, cidObject);
+  returnAmt = addAndDeduct(change, "ONE", 1,  returnAmt, cidObject);
+  returnAmt = addAndDeduct(change, "QUARTER", 0.25, returnAmt, cidObject);
+  returnAmt = addAndDeduct(change, "DIME", 0.10, returnAmt, cidObject);
+  returnAmt = addAndDeduct(change, "NICKEL", 0.05, returnAmt, cidObject);
+  returnAmt = addAndDeduct(change, "PENNY", 0.01, returnAmt, cidObject);
 
-  let hundredChange = (returnAmt/100);
-  if(hundredChange >= 1) {
-    wholeCurrency.push(["ONE HUNDRED", (Math.trunc(hundredChange) * 100)]);
-    returnAmt = (returnAmt - (Math.trunc(hundredChange) * 100));
-  }
-
-  let twentyChange = (returnAmt/20);
-  if(twentyChange >= 1) {
-    wholeCurrency.push(["TWENTY", (Math.trunc(twentyChange) * 20)]);
-    returnAmt = (returnAmt - (Math.trunc(twentyChange) * 20));
-  }
-
-  let tenChange = (returnAmt/10);
-  if(tenChange >= 1) {
-    wholeCurrency.push(["TEN", (Math.trunc(tenChange) * 10)]);
-    returnAmt = (returnAmt - (Math.trunc(tenChange) * 10));
-  }
-
-  let fiveChange = (returnAmt/5);
-  if(fiveChange >= 1) {
-    wholeCurrency.push(["FIVE", (Math.trunc(fiveChange) * 5)]);
-    returnAmt = (returnAmt - (Math.trunc(fiveChange) * 5));
-  }
-
-  let oneChange = (returnAmt/1);
-  if(oneChange >= 1) {
-    wholeCurrency.push(["DOLLAR", (Math.round(oneChange) * 1)]);
-    //returnAmt = (returnAmt - (Math.trunc(fiveChange) * 5));
-  }
-
-  return wholeCurrency;
-}
-
-function getChange(returnAmt, cid) {
-  let change = [];
-
-  if(cid["ONE HUNDRED"] >= returnAmt) {
-    change.push(["ONE HUNDRED", cid["ONE HUNDRED"]);
-  }
-
-  return change;
+  //return change;
 }
 
 function checkCashRegister(price, cash, cid) {
@@ -87,10 +42,11 @@ function checkCashRegister(price, cash, cid) {
 
   //Calculate total cash in cash register sent
   let cashInRegister = 0.0;
+  let cidObject = {};
   cid.forEach(denomination => {
     cashInRegister += denomination[1];
+    cidObject[denomination[0]] = denomination[1];
   });
-  cashInRegister = cashInRegister;
   console.log("Total Cash in register:", cashInRegister);
 
   //Calculate return amount
@@ -98,12 +54,12 @@ function checkCashRegister(price, cash, cid) {
   console.log("Return Amt:", returnAmt);
 
   //Compare return amount with cash in register
+  change.change = [];
   if(cashInRegister < returnAmt) {
     change.status = "INSUFFICIENT_FUNDS";
-    change.change = [];
   } else if(cashInRegister > returnAmt) {
-    //Check whole and fractional denomination separately
-    change.change = getChange(returnAmt, cid);
+
+    getChange(change, returnAmt, cidObject);
 
     if(cashInRegister === returnAmt) {
       change.status = "CLOSED";
@@ -112,6 +68,8 @@ function checkCashRegister(price, cash, cid) {
     }
   }
 
+  console.log(change.change);
+  console.log(change.status);
   return change;
 }
 
@@ -126,4 +84,6 @@ function checkCashRegister(price, cash, cid) {
 // ["TWENTY", 60],
 // ["ONE HUNDRED", 100]]
 
-checkCashRegister(379.67, 1, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
+//checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 1], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]);
+//checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
+checkCashRegister(3.26, 100, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]])
