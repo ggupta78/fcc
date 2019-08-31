@@ -1,11 +1,14 @@
 
 function addAndDeduct(change, denomination, val, returnAmt, cidObject) {
-  if(returnAmt - cidObject[denomination] >= 0) {
+  // if(cidObject[denomination] <= 0)
+  //   return returnAmt;
+  
+  let denominationQuantity = returnAmt / val;
+  if(returnAmt - cidObject[denomination] >= 0 && denominationQuantity >=1) {
     change.change.push([denomination, cidObject[denomination]]);
     returnAmt = returnAmt - cidObject[denomination];
-  } else {
-    let denominationQuantity = returnAmt / val;
-    if(denominationQuantity >= 1) {
+  } else {    
+    if(denominationQuantity >= 1 && (cidObject[denomination] - returnAmt >= 0)) {
       if(denomination === "PENNY") {
         change.change.push([denomination, (Math.round(denominationQuantity) * val)]);  
       } else {
@@ -34,6 +37,14 @@ function getChange(change, returnAmt, cidObject) {
   //return change;
 }
 
+function getReturnedChange(change) {
+  let sum=0.0;
+  change.change.forEach(item => {
+    sum += item[1];
+  });
+  return sum;
+}
+
 function checkCashRegister(price, cash, cid) {
   //Initialiase the change object
   var change = {};
@@ -55,21 +66,25 @@ function checkCashRegister(price, cash, cid) {
 
   //Compare return amount with cash in register
   change.change = [];
-  if(cashInRegister < returnAmt) {
+
+  getChange(change, returnAmt, cidObject);
+
+  let returnedChange = getReturnedChange(change);
+
+  if(returnedChange < returnAmt) {
     change.status = "INSUFFICIENT_FUNDS";
-  } else if(cashInRegister > returnAmt) {
-
-    getChange(change, returnAmt, cidObject);
-
-    if(cashInRegister === returnAmt) {
-      change.status = "CLOSED";
-    } else {
-      change.status = "OPEN";
-    }
+    change.change = [];
+  }
+  else if(returnedChange === cashInRegister){
+    change.status = "CLOSED";
+    change.change = cid;
+  } else {
+    change.status = "OPEN";
   }
 
-  console.log(change.change);
+  console.log(change.change.toString());
   console.log(change.status);
+
   return change;
 }
 
@@ -84,6 +99,9 @@ function checkCashRegister(price, cash, cid) {
 // ["TWENTY", 60],
 // ["ONE HUNDRED", 100]]
 
-//checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 1], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]);
-//checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
-checkCashRegister(3.26, 100, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]])
+checkCashRegister(19.5, 20, [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]])
+// checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
+// checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 1], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]);
+// checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
+// checkCashRegister(3.26, 100, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
+// checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 1], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]);
