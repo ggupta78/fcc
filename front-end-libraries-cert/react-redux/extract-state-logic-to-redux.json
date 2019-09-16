@@ -1,0 +1,3 @@
+{
+  "index.jsx": "// define ADD, addMessage(), messageReducer(), and store here:\nconst ADD = 'ADD';\n\nfunction addMessage(message) {\n  return {\n    type: ADD,\n    message: message\n  };\n}\n\nconst messageReducer = (state = [], action) => {\n  switch(action.type) {\n    case ADD:\n      return [...state, action.message];\n    default:\n      return state;\n  }\n}\n\nlet store = Redux.createStore(messageReducer);\n\n//store.dispatch(addMessage());"
+}
